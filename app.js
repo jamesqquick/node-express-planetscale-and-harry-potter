@@ -24,6 +24,12 @@ app.get('/characters/:id', async (req, res) => {
 	let retVal = {};
 	
 	const {id} = req.params;
+	if(isNaN(Number(id))) {
+		status = 403;
+		retVal.message = 'Invalid request. Please make sure the id you are searching for is a number';
+		return res.status(status).json(retVal);
+	}
+    
 	try {
 		const query = `SELECT * FROM hp_character WHERE hp_character.id='${id}'`;
 		const characters = await asyncQuery(query);
@@ -64,6 +70,13 @@ app.get('/wands/:id', async (req, res) => {
 	const retVal = {};
 
 	const {id} = req.params;
+    
+	if(isNaN(Number(id))) {
+		status = 403;
+		retVal.message = 'Invalid request. Please make sure the id you are searching for is a number';
+		return res.status(status).json(retVal);
+	}
+
 	try {
 		const query = `SELECT * from wand where wand.id=${id}`;
 		const wands = await asyncQuery(query);
