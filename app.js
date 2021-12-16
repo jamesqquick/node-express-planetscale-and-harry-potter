@@ -65,6 +65,8 @@ app.get('/wands', async (req, res) => {
 	}
 });
 
+
+
 app.get('/wands/:id', async (req, res) => {
 	let status = 200;
 	const retVal = {};
