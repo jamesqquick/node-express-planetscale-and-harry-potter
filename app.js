@@ -25,14 +25,14 @@ app.get('/characters/:id', async (req, res) => {
 	
 	const {id} = req.params;
 	if(isNaN(Number(id))) {
-		status = 403;
+		status = 400;
 		retVal.message = 'Invalid request. Please make sure the id you are searching for is a number';
 		return res.status(status).json(retVal);
 	}
     
 	try {
-		const query = `SELECT * FROM hp_character WHERE hp_character.id='${id}'`;
-		const characters = await asyncQuery(query);
+		const query = 'SELECT * FROM hp_character WHERE hp_character.id=?';
+		const characters = await asyncQuery(query, [id]);
 		const character = characters[0];
 		retVal.data = character;
 		if(!character){
@@ -74,14 +74,14 @@ app.get('/wands/:id', async (req, res) => {
 	const {id} = req.params;
     
 	if(isNaN(Number(id))) {
-		status = 403;
+		status = 400;
 		retVal.message = 'Invalid request. Please make sure the id you are searching for is a number';
 		return res.status(status).json(retVal);
 	}
 
 	try {
-		const query = `SELECT * from wand where wand.id=${id}`;
-		const wands = await asyncQuery(query);
+		const query = 'SELECT * from wand where wand.id=?';
+		const wands = await asyncQuery(query, [id]);
 		retVal.data = wands[0];
 		if(!retVal.data) {
 			retVal.message = `Couldn't find a wand with id ${id}`;
