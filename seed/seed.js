@@ -7,7 +7,7 @@ const characterIndexToWandIndex  = {};
 
 const loadAndSaveData = async () => {
 	try {
-	//clear the existing records
+		//clear the existing records
 		await asyncQuery(dropWandTableSQL);
 		console.log('***dropped wand table***');
 		await asyncQuery(dropHPCharacterTableSQL);
