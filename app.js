@@ -1,5 +1,17 @@
 import express from 'express';
-import asyncQuery from './helpers/asyncQuery.js';
+import mysql from 'mysql2/promise';
+import dotenv from 'dotenv';
+dotenv.config();
+
+const connection = await mysql.createConnection({
+	host : process.env.DB_HOST,
+	user : process.env.DB_USER,
+	database: process.env.DB_DATABASE,
+	password : process.env.DB_PASSWORD,
+	ssl : {
+		rejectUnauthorized: true
+	}
+});
 
 const app = express();
 
@@ -9,7 +21,8 @@ app.get('/characters', async (req, res) => {
     
 	try {
 		const query = 'SELECT * FROM hp_character';
-		retVal.data = await asyncQuery(query);
+		const [rows] = await connection.execute(query);
+		retVal.data = rows;
 	} catch (error) {
 		console.error(error);
 		retVal.error = error;
@@ -32,10 +45,10 @@ app.get('/characters/:id', async (req, res) => {
     
 	try {
 		const query = 'SELECT * FROM hp_character WHERE hp_character.id=?';
-		const characters = await asyncQuery(query, [id]);
-		const character = characters[0];
-		retVal.data = character;
-		if(!character){
+		const [rows] = await connection.execute(query, [id]);
+
+		retVal.data = rows[0];
+		if(!retVal.data){
 			status = 404;
 			retVal.message = `Couldn't find a character with id ${id}`;
 		}
@@ -54,8 +67,8 @@ app.get('/wands', async (req, res) => {
 
 	try {
 		const query = 'SELECT * FROM wand';
-		retVal.data = await asyncQuery(query);
-		res.status(status).json(retVal);
+		const [rows] = await connection.execute(query);
+		retVal.data = rows;
 	} catch (error) {
 		console.error(error);
 		retVal.error = error;
@@ -81,8 +94,9 @@ app.get('/wands/:id', async (req, res) => {
 
 	try {
 		const query = 'SELECT * from wand where wand.id=?';
-		const wands = await asyncQuery(query, [id]);
-		retVal.data = wands[0];
+		const [rows] = await connection.execute(query, [id]);
+
+		retVal.data = rows[0];
 		if(!retVal.data) {
 			retVal.message = `Couldn't find a wand with id ${id}`;
 		}
