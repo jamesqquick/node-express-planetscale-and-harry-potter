@@ -12,7 +12,6 @@ const connection = await mysql.createConnection({
 	ssl : {
 		rejectUnauthorized: true
 	},
-	multipleStatements: true
 });
 
 const characterIndexToWandIndex  = {};
