@@ -1,21 +1,35 @@
 import axios from 'axios';
-import asyncQuery from '../helpers/asyncQuery.js';
 import { createHPCharacterTableSQL, createWandTableSQL, dropHPCharacterTableSQL, dropWandTableSQL, insertHPCharacterSQL, insertWandSQL } from './sql.js';
+import mysql from 'mysql2/promise';
+import dotenv from 'dotenv';
+dotenv.config();
 
+const connection = await mysql.createConnection({
+	host : process.env.DB_HOST,
+	user : process.env.DB_USER,
+	database: process.env.DB_DATABASE,
+	password : process.env.DB_PASSWORD,
+	ssl : {
+		rejectUnauthorized: true
+	},
+	multipleStatements: true
+});
 
 const characterIndexToWandIndex  = {};
 
 const loadAndSaveData = async () => {
 	try {
 		//clear the existing records
-		await asyncQuery(dropWandTableSQL);
+		await connection.execute(dropWandTableSQL);
 		console.log('***dropped wand table***');
-		await asyncQuery(dropHPCharacterTableSQL);
+		
+		await connection.execute(dropHPCharacterTableSQL);
 		console.log('***dropped hp_character table***');
-		await asyncQuery(createWandTableSQL);
+
+		await connection.execute(createWandTableSQL);        
 		console.log('***created wand table***');
 
-		await asyncQuery(createHPCharacterTableSQL);
+		await connection.execute(createHPCharacterTableSQL);        
 		console.log('***created hp_character table***');
 
         
@@ -24,12 +38,13 @@ const loadAndSaveData = async () => {
         
 		//save the wands
 		const wands = getWandDataToSave(data);
-		await asyncQuery(insertWandSQL, [wands]);
+		// console.log(wands);
+		await connection.query(insertWandSQL, [wands]);
 		console.log('***wands saved***');
     
-		//save the characters
+		// //save the characters
 		const characters = getCharacterDataToSave(data);
-		await asyncQuery(insertHPCharacterSQL, [characters]);
+		await connection.query(insertHPCharacterSQL, [characters]);        
 		console.log('***characters saved***');
     
 	}catch(err){
@@ -72,4 +87,4 @@ const getCharacterDataToSave = (data) =>{
 	return characters;
 };
 
-loadAndSaveData();
+await loadAndSaveData();
