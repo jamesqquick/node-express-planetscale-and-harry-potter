@@ -6,6 +6,10 @@ dotenv.config();
 
 const connection = await mysql.createConnection(process.env.DATABASE_URL);
 
+//Used to limit the amount of records that get saved in the DB. Set to undefined
+//if you want to save all records
+const MAX_RECORDS = 20;
+
 const characterIndexToWandIndex  = {};
 
 const loadAndSaveData = async () => {
@@ -61,7 +65,7 @@ const getWandDataToSave = (data) => {
 		}
 		return isValidWand;
 	});
-	return wands;
+	return wands.slice(0, MAX_RECORDS);
 };
 
 const getCharacterDataToSave = (data) =>{
@@ -75,7 +79,7 @@ const getCharacterDataToSave = (data) =>{
 		return retVal;
 	});
 	const characters = formattedCharacters.map((character) => Object.values(character));
-	return characters;
+	return characters.slice(0, MAX_RECORDS);
 };
 
 await loadAndSaveData();
