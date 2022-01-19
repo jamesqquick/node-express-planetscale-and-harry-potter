@@ -13,7 +13,7 @@ app.get('/characters', async (req, res) => {
     
 	try {
 		const query = 'SELECT * FROM hp_character';
-		const [rows] = await connection.execute(query);
+		const [rows] = await connection.query(query);
 		retVal.data = rows;
 	} catch (error) {
 		console.error(error);
@@ -37,7 +37,7 @@ app.get('/characters/:id', async (req, res) => {
     
 	try {
 		const query = 'SELECT * FROM hp_character WHERE hp_character.id=?';
-		const [rows] = await connection.execute(query, [id]);
+		const [rows] = await connection.query(query, [id]);
 
 		retVal.data = rows[0];
 		if(!retVal.data){
@@ -59,7 +59,7 @@ app.get('/wands', async (req, res) => {
 
 	try {
 		const query = 'SELECT * FROM wand';
-		const [rows] = await connection.execute(query);
+		const [rows] = await connection.query(query);
 		retVal.data = rows;
 	} catch (error) {
 		console.error(error);
@@ -86,7 +86,7 @@ app.get('/wands/:id', async (req, res) => {
 
 	try {
 		const query = 'SELECT * from wand where wand.id=?';
-		const [rows] = await connection.execute(query, [id]);
+		const [rows] = await connection.query(query, [id]);
 
 		retVal.data = rows[0];
 		if(!retVal.data) {

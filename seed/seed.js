@@ -15,16 +15,16 @@ const characterIndexToWandIndex  = {};
 const loadAndSaveData = async () => {
 	try {
 		//clear the existing records
-		await connection.execute(dropWandTableSQL);
+		await connection.query(dropWandTableSQL);
 		console.log('***dropped wand table***');
 		
-		await connection.execute(dropHPCharacterTableSQL);
+		await connection.query(dropHPCharacterTableSQL);
 		console.log('***dropped hp_character table***');
 
-		await connection.execute(createWandTableSQL);        
+		await connection.query(createWandTableSQL);        
 		console.log('***created wand table***');
 
-		await connection.execute(createHPCharacterTableSQL);        
+		await connection.query(createHPCharacterTableSQL);        
 		console.log('***created hp_character table***');
 
         
@@ -44,7 +44,6 @@ const loadAndSaveData = async () => {
     
 	}catch(err){
 		console.error(err);
-    
 	}
 };
 
@@ -83,3 +82,4 @@ const getCharacterDataToSave = (data) =>{
 };
 
 await loadAndSaveData();
+process.exit();
