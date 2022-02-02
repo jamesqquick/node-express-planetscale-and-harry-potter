@@ -2,6 +2,10 @@
 
 This is Node/Express project for a Harry Potter API with data stored in a PlanetScale MySQL database.
 
+📖[Blog featuring this repo](https://planetscale.com/blog/create-a-harry-potter-api-with-node-js-express-mysql-and-planetscale)
+
+📺[ YouTube Tutorial](https://youtu.be/GyicOpBFUbw)
+
 ## How to Use
 
 Clone the repository.
