@@ -1,0 +1,28 @@
+name: 02 - Try to remove all magic
+
+on:
+  workflow_dispatch
+
+env:
+  pscale_base_directory: .pscale
+
+jobs:
+
+  remove-operation-column-and-index:
+    name: "Remove magic operation - click here"
+    runs-on: ubuntu-latest
+        
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: Remove magic - if asked, please click on displayed link to authenticate
+        timeout-minutes: 3
+        env:
+          PLANETSCALE_SERVICE_TOKEN_NAME: ${{secrets.PLANETSCALE_SERVICE_TOKEN_NAME}}
+          PLANETSCALE_SERVICE_TOKEN: ${{secrets.PLANETSCALE_SERVICE_TOKEN}}
+          ORG_NAME: ${{secrets.ORG_NAME}}
+          DB_NAME: ${{secrets.DB_NAME}}
+          GITHUB_USER: ${{github.actor}}
+        working-directory: ${{env.pscale_base_directory}}/cli-helper-scripts/
+        run: ./remove-magic.sh

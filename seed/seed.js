@@ -8,7 +8,7 @@ const connection = await mysql.createConnection(process.env.DATABASE_URL);
 
 //Used to limit the amount of records that get saved in the DB. Set to undefined
 //if you want to save all records
-const MAX_RECORDS = 20;
+const MAX_RECORDS = 1000;
 
 const characterIndexToWandIndex  = {};
 
