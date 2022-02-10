@@ -82,4 +82,4 @@ const getCharacterDataToSave = (data) =>{
 };
 
 await loadAndSaveData();
-process.exit();
+process.exit(0);
