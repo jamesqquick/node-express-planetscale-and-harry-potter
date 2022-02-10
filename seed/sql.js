@@ -10,7 +10,6 @@ export const createHPCharacterTableSQL = `CREATE TABLE hp_character (
     full_name VARCHAR(240), 
     species VARCHAR(40),
     gender VARCHAR(40), 
-    age INT UNSIGNED,
     house VARCHAR(40), 
     date_of_birth VARCHAR(40), 
     year_of_birth INT UNSIGNED,
