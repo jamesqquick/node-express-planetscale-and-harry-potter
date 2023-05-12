@@ -29,7 +29,7 @@ const loadAndSaveData = async () => {
 
         
 		//load raw data from api
-		const {data} = await axios.get('http://hp-api.herokuapp.com/api/characters');
+		const {data} = await axios.get('https://hp-api.onrender.com/api/characters');
         
 		//save the wands
 		const wands = getWandDataToSave(data);
@@ -69,6 +69,7 @@ const getWandDataToSave = (data) => {
 
 const getCharacterDataToSave = (data) =>{
 	const formattedCharacters = data.map((character, i) => {
+		delete character['id'];
 		delete character['alternate_names'];
 		delete character['alternate_actors'];
 		delete character['actor'];
